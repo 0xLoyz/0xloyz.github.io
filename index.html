@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda | Web Tools</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Canvas untuk Partikel Dinamis -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Navigasi & Hamburger -->
+    <nav class="navbar">
+        <div class="logo">Loyz<span>Dev</span></div>
+        <div class="hamburger" id="hamburger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Beranda</a></li>
+            <li><a href="html/source.html">Source & Tools</a></li>
+            <li><a href="html/login.html">Login</a></li>
+        </ul>
+    </aside>
+
+    <!-- Konten Utama -->
+    <main class="main-content">
+        <div class="hero-card">
+            <h1>Selamat Datang</h1>
+            <p>Pusat koleksi tools dan source code dengan performa tinggi.</p>
+            <a href="html/source.html" class="btn-primary">Mulai Eksplorasi</a>
+
+            <!-- Status login: diisi otomatis oleh js/auth-status.js -->
+            <div id="auth-status" style="margin-top: 20px;"></div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth-status.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/particles.js"></script>
+</body>
+</html>
