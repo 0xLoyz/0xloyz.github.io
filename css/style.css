@@ -380,7 +380,48 @@ body {
     margin-top: 2px;
 }
 
+.history-item .h-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.history-item .h-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.history-item .h-delete {
+    flex-shrink: 0;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.history-item .h-delete:hover {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+}
+
 .history-empty {
     color: rgba(255, 255, 255, 0.4);
     font-size: 0.8rem;
+}
+
+/* Label pemilik link (muncul cuma di mode admin) */
+.h-owner {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 1px 6px;
+    border-radius: 4px;
 }
