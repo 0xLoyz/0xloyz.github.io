@@ -1,1 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Web Tools</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Cloudflare Turnstile API Script -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
 
+    <nav class="navbar">
+        <div class="logo">Loyz<span>Dev</span></div>
+        <div class="hamburger" id="hamburger-btn">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <aside class="sidebar" id="sidebar">
+        <ul class="nav-links">
+            <li><a href="../index.html">Beranda</a></li>
+            <li><a href="source.html">Source & Tools</a></li>
+            <li><a href="login.html" class="active">Login</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="login-card">
+            <h2>Akses Akun</h2>
+            <p>Silakan login untuk menyimpan konfigurasi Anda.</p>
+            
+            <!-- Wadah untuk widget Cloudflare Turnstile -->
+            <div id="turnstile-container" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
+
+            <button class="oauth-btn github-btn" id="btn-login-github">Login dengan GitHub</button>
+            <button class="oauth-btn google-btn" id="btn-login-google">Login dengan Google</button>
+        </div>
+    </main>
+
+    <!-- Library Supabase JS (wajib dimuat sebelum config.js/auth.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Urutan pemanggilan script sangat penting: config -> script utama -> auth -> particles -->
+    <script src="../js/config.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/particles.js"></script>
+</body>
+</html>
