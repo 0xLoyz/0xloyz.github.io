@@ -37,8 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (session) {
             const { name, avatar } = getProfileInfo(session.user);
+
+            const { data: roleRow } = await supabaseClient
+                .from('user_roles')
+                .select('role')
+                .eq('user_id', session.user.id)
+                .single();
+            const isAdmin = roleRow?.role === 'admin';
+
+            const emailText = maskEmail(session.user.email) + (isAdmin ? " (admin)" : "");
+
             document.getElementById('profile-name').textContent = name;
-            document.getElementById('profile-email').textContent = maskEmail(session.user.email);
+            document.getElementById('profile-email').textContent = emailText;
             document.getElementById('profile-avatar').src = avatar;
 
             profileCard.style.display = 'block';
