@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hello World</title>
+
+    <style>
+        :root {
+            --bg-dark: #191414;
+            --primary: #d84b3e;
+            --primary-hover: #b83d31;
+            --accent: #e5a452;
+            --text: #fbece9;
+            --card: rgba(36, 26, 26, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-dark);
+            color: var(--text);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            overflow: hidden;
+        }
+
+        .card {
+            width: min(90%, 600px);
+            padding: 50px 30px;
+
+            text-align: center;
+
+            background: var(--card);
+            border: 1px solid rgba(216, 75, 62, 0.3);
+            border-radius: 15px;
+
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        h1 {
+            color: var(--accent);
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 25px;
+
+            background: var(--primary);
+            color: white;
+
+            text-decoration: none;
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            transition: 0.3s ease;
+        }
+
+        .button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(216, 75, 62, 0.4);
+        }
+
+        .button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="card">
+        <h1>Hello World 👋</h1>
+
+        <p>
+            Selamat datang di website pertama saya.
+            <br>
+            Website ini berhasil di-hosting!
+        </p>
+
+        <a href="#" class="button" onclick="alert('Hello World! 🚀')">
+            Klik Saya
+        </a>
+    </main>
+
+</body>
+</html>
