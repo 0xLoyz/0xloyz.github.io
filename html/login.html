@@ -27,7 +27,16 @@
     </aside>
 
     <main class="main-content">
-        <div class="login-card">
+        <!-- Ditampilkan kalau user SUDAH login -->
+        <div class="login-card" id="profile-card" style="display: none;">
+            <img id="profile-avatar" class="profile-avatar" src="" alt="Foto profil">
+            <h2 id="profile-name">-</h2>
+            <p id="profile-email">-</p>
+            <button class="oauth-btn" id="btn-logout">Logout</button>
+        </div>
+
+        <!-- Ditampilkan kalau user BELUM login -->
+        <div class="login-card" id="login-card">
             <h2>Akses Akun</h2>
             <p>Silakan login untuk menyimpan konfigurasi Anda.</p>
             
