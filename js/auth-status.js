@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
         statusEl.innerHTML = `
             <p class="auth-optional-label">-opsional-</p>
-            <a href="html/login.html" class="btn-primary">Login</a>
+            <a href="html/login" class="btn-primary">Login</a>
         `;
     }
 });
