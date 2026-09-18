@@ -6,19 +6,52 @@ const supabaseClient = window.supabase.createClient(
     CONFIG.SUPABASE_KEY
 );
 
+// Menyamarkan email, contoh: "example@gmail.com" -> "exam**@gmail.com"
+function maskEmail(email) {
+    if (!email || !email.includes('@')) return email;
+    const [local, domain] = email.split('@');
+    const visibleLength = Math.min(4, local.length);
+    return local.slice(0, visibleLength) + "**@" + domain;
+}
+
+// Mengambil nama & foto profil dari data OAuth (Google atau GitHub)
+function getProfileInfo(user) {
+    const meta = user.user_metadata || {};
+    const name = meta.full_name || meta.name || meta.user_name || user.email;
+    const avatar = meta.avatar_url || meta.picture || "";
+    return { name, avatar };
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    const loginCard = document.getElementById('login-card');
+    const profileCard = document.getElementById('profile-card');
     const turnstileContainer = document.getElementById('turnstile-container');
     const btnGoogle = document.getElementById('btn-login-google');
     const btnGithub = document.getElementById('btn-login-github');
+    const btnLogout = document.getElementById('btn-logout');
     let turnstileToken = "";
 
-    // 0. Kalau sudah ada sesi aktif, langsung lempar ke halaman utama
-    (async () => {
+    // 0. Cek status login: tampilkan kartu profil atau kartu login
+    async function renderAuthState() {
         const { data: { session } } = await supabaseClient.auth.getSession();
+
         if (session) {
-            window.location.href = "../index.html";
+            const { name, avatar } = getProfileInfo(session.user);
+            document.getElementById('profile-name').textContent = name;
+            document.getElementById('profile-email').textContent = maskEmail(session.user.email);
+            document.getElementById('profile-avatar').src = avatar;
+
+            profileCard.style.display = 'block';
+            loginCard.style.display = 'none';
+        } else {
+            profileCard.style.display = 'none';
+            loginCard.style.display = 'block';
         }
-    })();
+    }
+    renderAuthState();
+
+    // Refresh tampilan otomatis kalau status login berubah (habis redirect OAuth, dsb)
+    supabaseClient.auth.onAuthStateChange(() => renderAuthState());
 
     // 1. Render Turnstile jika diaktifkan di config.js
     if (CONFIG.ENABLE_TURNSTILE) {
@@ -45,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: provider,
             options: {
-                // Setelah login sukses, Supabase akan redirect balik ke sini
-                redirectTo: window.location.origin + window.location.pathname.replace('login.html', 'index.html')
+                // Setelah login sukses, Supabase akan redirect balik ke halaman login ini
+                redirectTo: window.location.href
             }
         });
 
@@ -60,6 +93,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Event listener tombol Google
     btnGoogle.addEventListener('click', () => loginWithProvider('google'));
 
-    // 3. Event listener tombol GitHub (sebelumnya belum ada sama sekali)
+    // 3. Event listener tombol GitHub
     btnGithub.addEventListener('click', () => loginWithProvider('github'));
+
+    // 4. Event listener tombol Logout
+    btnLogout.addEventListener('click', async () => {
+        await supabaseClient.auth.signOut();
+        renderAuthState();
+    });
 });
