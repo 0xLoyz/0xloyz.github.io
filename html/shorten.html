@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Link Pendek | LoyzDev Portofolio</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="logo">Loyz<span>Dev</span></div>
+        <div class="hamburger" id="hamburger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <aside class="sidebar" id="sidebar">
+        <ul class="nav-links">
+            <li><a href="../index">Beranda</a></li>
+            <li><a href="source" class="active">Source & Tools</a></li>
+            <li><a href="login">Login</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="login-card">
+            <h2>Buat Link Pendek</h2>
+            <p>Tempel link panjangnya, dapat link pendek otomatis.</p>
+
+            <input type="url" id="input-url" placeholder="https://contoh.com/link-yang-sangat-panjang"
+                style="width:100%; padding:12px; margin:15px 0; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); color:#fff;">
+
+            <button class="oauth-btn" id="btn-shorten">Buat Link Pendek</button>
+
+            <div id="result-box" style="display:none; margin-top:20px;">
+                <p style="margin-bottom:8px; color:rgba(255,255,255,0.6); font-size:0.9rem;">Link pendek kamu:</p>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="result-url" readonly
+                        style="flex:1; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); color:var(--accent-gold);">
+                    <button class="oauth-btn" id="btn-copy" style="width:auto; padding:10px 16px;">Salin</button>
+                </div>
+            </div>
+
+            <p id="error-msg" style="display:none; color:#ff6b6b; margin-top:12px; font-size:0.9rem;"></p>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/shorten.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/particles.js"></script>
+</body>
+</html>
