@@ -36,6 +36,65 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultUrlField = document.getElementById('result-url');
     const btnCopy = document.getElementById('btn-copy');
     const errorMsg = document.getElementById('error-msg');
+    const historyPanel = document.getElementById('history-panel');
+    const historyList = document.getElementById('history-list');
+
+    let currentUserId = null;
+
+    // Ambil daftar link milik user yang sedang login, lalu render ke sidebar
+    async function loadHistory() {
+        const { data, error } = await supabaseClientShorten
+            .from('short_links')
+            .select('slug, target_url, created_at')
+            .eq('user_id', currentUserId)
+            .order('created_at', { ascending: false });
+
+        historyList.innerHTML = '';
+
+        if (error) {
+            console.error("Gagal memuat riwayat:", error);
+            historyList.innerHTML = '<li class="history-empty">Gagal memuat riwayat.</li>';
+            return;
+        }
+
+        if (!data || data.length === 0) {
+            historyList.innerHTML = '<li class="history-empty">Belum ada link tersimpan.</li>';
+            return;
+        }
+
+        data.forEach(row => {
+            const shortUrl = window.location.origin + "/s/" + row.slug;
+            const li = document.createElement('li');
+            li.className = 'history-item';
+            li.innerHTML = `
+                <span class="h-short">/s/${row.slug}</span>
+                <span class="h-target" title="${row.target_url}">${row.target_url}</span>
+            `;
+            li.querySelector('.h-short').addEventListener('click', () => {
+                navigator.clipboard.writeText(shortUrl);
+                const el = li.querySelector('.h-short');
+                const original = el.textContent;
+                el.textContent = "Tersalin!";
+                setTimeout(() => { el.textContent = original; }, 1200);
+            });
+            historyList.appendChild(li);
+        });
+    }
+
+    // Cek status login: kalau login, tampilkan panel riwayat & muat datanya
+    async function initHistoryPanel() {
+        const { data: { session } } = await supabaseClientShorten.auth.getSession();
+        if (session) {
+            currentUserId = session.user.id;
+            historyPanel.style.display = 'block';
+            loadHistory();
+        } else {
+            currentUserId = null;
+            historyPanel.style.display = 'none';
+        }
+    }
+    initHistoryPanel();
+    supabaseClientShorten.auth.onAuthStateChange(() => initHistoryPanel());
 
     function showError(text) {
         errorMsg.textContent = text;
@@ -82,6 +141,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const shortUrl = window.location.origin + "/s/" + saved.slug;
             resultUrlField.value = shortUrl;
             resultBox.style.display = 'block';
+
+            // Kalau lagi login, langsung refresh daftar riwayat biar link barunya muncul
+            if (currentUserId) {
+                loadHistory();
+            }
         } catch (err) {
             console.error("Shorten error:", err);
             showError("Terjadi kesalahan koneksi ke server. Cek console untuk detail.");
