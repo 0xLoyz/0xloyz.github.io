@@ -40,14 +40,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const historyList = document.getElementById('history-list');
 
     let currentUserId = null;
+    let isAdmin = false;
 
-    // Ambil daftar link milik user yang sedang login, lalu render ke sidebar
+    // Ambil daftar link (semua link kalau admin, atau cuma milik sendiri kalau user biasa)
     async function loadHistory() {
-        const { data, error } = await supabaseClientShorten
+        let query = supabaseClientShorten
             .from('short_links')
-            .select('slug, target_url, created_at')
-            .eq('user_id', currentUserId)
+            .select('slug, target_url, created_at, user_id')
             .order('created_at', { ascending: false });
+
+        if (!isAdmin) {
+            query = query.eq('user_id', currentUserId);
+        }
+
+        const { data, error } = await query;
 
         historyList.innerHTML = '';
 
@@ -66,9 +72,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const shortUrl = window.location.origin + "/s/" + row.slug;
             const li = document.createElement('li');
             li.className = 'history-item';
+            const ownerTag = isAdmin
+                ? `<span class="h-owner">${row.user_id ? row.user_id.slice(0, 8) : 'anon'}</span>`
+                : '';
             li.innerHTML = `
-                <span class="h-short">/s/${row.slug}</span>
-                <span class="h-target" title="${row.target_url}">${row.target_url}</span>
+                <div class="h-row">
+                    <div class="h-info">
+                        <span class="h-short">/s/${row.slug}</span>
+                        <span class="h-target" title="${row.target_url}">${row.target_url}</span>
+                        ${ownerTag}
+                    </div>
+                    <button class="h-delete" title="Hapus link ini">&times;</button>
+                </div>
             `;
             li.querySelector('.h-short').addEventListener('click', () => {
                 navigator.clipboard.writeText(shortUrl);
@@ -76,6 +91,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 const original = el.textContent;
                 el.textContent = "Tersalin!";
                 setTimeout(() => { el.textContent = original; }, 1200);
+            });
+            li.querySelector('.h-delete').addEventListener('click', async () => {
+                if (!confirm(`Hapus link /s/${row.slug}? Tindakan ini tidak bisa dibatalkan.`)) return;
+
+                const { error } = await supabaseClientShorten
+                    .from('short_links')
+                    .delete()
+                    .eq('slug', row.slug);
+
+                if (error) {
+                    console.error("Gagal menghapus:", error);
+                    alert("Gagal menghapus link: " + error.message);
+                    return;
+                }
+
+                li.remove();
+                if (!historyList.querySelector('.history-item')) {
+                    historyList.innerHTML = '<li class="history-empty">Belum ada link tersimpan.</li>';
+                }
             });
             historyList.appendChild(li);
         });
@@ -86,10 +120,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const { data: { session } } = await supabaseClientShorten.auth.getSession();
         if (session) {
             currentUserId = session.user.id;
+
+            const { data: roleRow } = await supabaseClientShorten
+                .from('user_roles')
+                .select('role')
+                .eq('user_id', currentUserId)
+                .single();
+            isAdmin = roleRow?.role === 'admin';
+
+            document.getElementById('history-title').textContent =
+                isAdmin ? 'Riwayat Tautan (Semua — Admin)' : 'Riwayat Tautan';
+
             historyPanel.style.display = 'block';
             loadHistory();
         } else {
             currentUserId = null;
+            isAdmin = false;
             historyPanel.style.display = 'none';
         }
     }
