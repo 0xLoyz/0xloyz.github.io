@@ -262,6 +262,9 @@ body {
 }
 
 .tool-item {
+    display: block;
+    text-decoration: none;
+    color: inherit;
     background: rgba(0, 0, 0, 0.4);
     padding: 25px;
     border-radius: 12px;
@@ -295,6 +298,12 @@ body {
     color: var(--primary-pyro);
     margin-bottom: 10px;
     transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.tool-item p {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
 }
 
 .tool-item:hover h3 {
