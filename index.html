@@ -1,122 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Hello World</title>
-
-    <style>
-        :root {
-            --bg-dark: #191414;
-            --primary: #d84b3e;
-            --primary-hover: #b83d31;
-            --accent: #e5a452;
-            --text: #fbece9;
-            --card: rgba(36, 26, 26, 0.7);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            background: var(--bg-dark);
-            color: var(--text);
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            overflow: hidden;
-        }
-
-        .card {
-            width: min(90%, 600px);
-            padding: 50px 30px;
-
-            text-align: center;
-
-            background: var(--card);
-            border: 1px solid rgba(216, 75, 62, 0.3);
-            border-radius: 15px;
-
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        h1 {
-            color: var(--accent);
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-
-        p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            opacity: 0.9;
-        }
-
-        .button {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 10px 25px;
-
-            background: var(--primary);
-            color: white;
-
-            text-decoration: none;
-            border-radius: 8px;
-
-            font-weight: bold;
-
-            transition: 0.3s ease;
-        }
-
-        .button:hover {
-            background: var(--primary-hover);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(216, 75, 62, 0.4);
-        }
-
-        .button:active {
-            transform: scale(0.95);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Static ZIP Tester</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">LOCAL STATIC RUNTIME</div>
+      <h1>Static ZIP Tester</h1>
+      <p>Upload ZIP → ekstrak di browser → jalankan website.</p>
+    </div>
+    <button id="clearAllBtn" class="ghost danger">Hapus semua</button>
+  </header>
 
-    <main class="card">
-        <h1>Hello World 👋</h1>
+  <main class="layout">
+    <section class="card upload-card">
+      <div id="dropZone" class="drop-zone">
+        <div class="drop-icon">ZIP</div>
+        <h2>Lepas ZIP di sini</h2>
+        <p>atau pilih satu file .zip dari perangkatmu</p>
+        <button id="pickBtn" class="primary">Pilih ZIP</button>
+        <input id="zipInput" type="file" accept=".zip,application/zip" hidden>
+        <small>Semua proses dilakukan di browser. Tidak ada upload ke server.</small>
+      </div>
+      <div id="progress" class="progress-wrap hidden">
+        <div class="progress-head">
+          <span id="statusText">Memproses...</span>
+          <span id="progressText">0%</span>
+        </div>
+        <div class="progress"><i id="progressBar"></i></div>
+      </div>
+    </section>
 
-        <p>
-            Selamat datang di website pertama saya.
-            <br>
-            Website ini berhasil di-hosting!
-        </p>
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <h2>Proyek tersimpan</h2>
+          <p>ZIP disimpan sebagai Blob di IndexedDB. Metadata kecil disimpan di localStorage.</p>
+        </div>
+        <span id="countBadge" class="badge">0</span>
+      </div>
+      <div id="projectList" class="project-list">
+        <div class="empty">Belum ada proyek.</div>
+      </div>
+    </section>
 
-        <a href="#" class="button" onclick="alert('Hello World! 🚀')">
-            Klik Saya
-        </a>
-    </main>
+    <section id="runnerCard" class="card runner hidden">
+      <div class="section-head runner-head">
+        <div>
+          <h2 id="runnerTitle">Preview</h2>
+          <p id="runnerInfo">—</p>
+        </div>
+        <div class="runner-actions">
+          <button id="openNewBtn" class="ghost">Buka tab</button>
+          <button id="reloadBtn" class="ghost">Reload</button>
+          <button id="closeBtn" class="ghost">Tutup</button>
+        </div>
+      </div>
+      <div class="preview-shell">
+        <iframe id="preview" sandbox="allow-scripts allow-forms allow-modals allow-popups"></iframe>
+      </div>
+    </section>
+  </main>
 
+  <dialog id="passwordDialog">
+    <form method="dialog" id="passwordForm">
+      <h2>ZIP terkunci</h2>
+      <p>Arsip ini membutuhkan password sebelum isinya dapat diekstrak.</p>
+      <input id="passwordInput" type="password" autocomplete="off" placeholder="Masukkan password">
+      <div class="dialog-actions">
+        <button value="cancel" class="ghost">Batal</button>
+        <button id="passwordSubmit" value="default" class="primary">Ekstrak</button>
+      </div>
+      <div id="passwordError" class="error"></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@zip.js/zip.js@2.8.6/dist/zip-full.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
