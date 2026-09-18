@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loyz Dev</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+
+    <main class="main-content">
+        <div class="login-card" id="status-card">
+            <h2 id="status-title">Mengalihkan...</h2>
+            <p id="status-text">Mohon tunggu sebentar.</p>
+            <a href="/index" class="btn-primary" id="btn-home" style="display:none; margin-top:15px;">Kembali ke Beranda</a>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/config.js"></script>
+    <script>
+        const statusTitle = document.getElementById('status-title');
+        const statusText = document.getElementById('status-text');
+        const btnHome = document.getElementById('btn-home');
+
+        function showNotFound() {
+            statusTitle.textContent = "404 - Halaman Tidak Ditemukan";
+            statusText.textContent = "Link yang kamu tuju tidak tersedia.";
+            btnHome.style.display = 'inline-block';
+        }
+
+        // Cek apakah path-nya format link pendek: /s/<slug>
+        const match = window.location.pathname.match(/^\/s\/([A-Za-z0-9]+)\/?$/);
+
+        if (match) {
+            const slug = match[1];
+            const supabaseClient404 = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY);
+
+            supabaseClient404
+                .from('short_links')
+                .select('target_url')
+                .eq('slug', slug)
+                .single()
+                .then(({ data, error }) => {
+                    if (error || !data) {
+                        showNotFound();
+                        return;
+                    }
+
+                    // Jaga-jaga: pastikan hanya http/https yang dieksekusi (anti-XSS)
+                    let target;
+                    try {
+                        target = new URL(data.target_url);
+                    } catch {
+                        showNotFound();
+                        return;
+                    }
+
+                    if (target.protocol === "http:" || target.protocol === "https:") {
+                        window.location.replace(target.href);
+                    } else {
+                        showNotFound();
+                    }
+                });
+        } else {
+            showNotFound();
+        }
+    </script>
+</body>
+</html>
