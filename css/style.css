@@ -557,3 +557,15 @@ body {
     background: none;
     text-shadow: none;
 }
+
+/* Kursor berkedip efek ketik di hero-card */
+.typewriter-cursor {
+    display: inline-block;
+    margin-left: 2px;
+    color: var(--accent-gold);
+    animation: ldui-blink 0.8s steps(1) infinite;
+}
+
+@keyframes ldui-blink {
+    50% { opacity: 0; }
+}
