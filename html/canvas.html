@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanvas | LoyzDev Portofolio</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="logo">Loyz<span>Dev</span></div>
+        <div class="hamburger" id="hamburger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <aside class="sidebar" id="sidebar">
+        <ul class="nav-links">
+            <li><a href="../index">Beranda</a></li>
+            <li><a href="source" class="active">Source & Tools</a></li>
+            <li><a href="login">Login</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content" style="max-width: 900px;">
+        <div class="login-card" style="max-width: 100%;">
+
+            <div class="canvas-toolbar" id="canvas-toolbar" style="display: none;">
+                <button data-tag="title">Title</button>
+                <button data-tag="kategori">Kategori</button>
+                <button data-tag="txt">Txt</button>
+                <button data-tag="link">Link</button>
+                <button data-tag="file">File</button>
+                <button data-tag="space">Space</button>
+            </div>
+
+            <textarea id="canvas-editor" style="display: none;" rows="12"
+                placeholder="&lt;title&gt;Judul Kanvas&lt;/title&gt;"></textarea>
+
+            <div class="canvas-editor-actions" id="canvas-editor-actions" style="display: none;">
+                <button class="oauth-btn" id="btn-run">Jalankan</button>
+                <button class="oauth-btn" id="btn-save">Simpan</button>
+            </div>
+
+            <button class="ldui-copy-btn" id="btn-toggle-edit" style="display: none; margin-bottom: 16px;">
+                Mode Edit
+            </button>
+
+            <div id="canvas-render"></div>
+        </div>
+    </main>
+
+    <!-- Modal preview file -->
+    <div id="file-modal-overlay" class="file-modal-overlay" style="display: none;">
+        <div class="file-modal-box">
+            <button class="file-modal-close" id="file-modal-close">&times;</button>
+            <div id="file-modal-content"></div>
+        </div>
+    </div>
+
+    <input type="file" id="hidden-file-input" style="display: none;">
+
+    <script src="../js/error-watch.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/canvas.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/particles.js"></script>
+</body>
+</html>
