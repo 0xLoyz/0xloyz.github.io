@@ -85,6 +85,25 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Verifikasi token ke server (Edge Function) sebelum lanjut OAuth
+        if (CONFIG.ENABLE_TURNSTILE) {
+            try {
+                const { data: verifyData, error: verifyError } = await supabaseClient.functions.invoke(
+                    'verify-turnstile',
+                    { body: { token: turnstileToken } }
+                );
+
+                if (verifyError || !verifyData?.success) {
+                    alert("Verifikasi keamanan gagal, coba lagi.");
+                    return;
+                }
+            } catch (err) {
+                console.error("Gagal memverifikasi Turnstile:", err);
+                alert("Gagal menghubungi server verifikasi. Coba lagi.");
+                return;
+            }
+        }
+
         const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: provider,
             options: {
