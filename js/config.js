@@ -9,7 +9,7 @@ const CONFIG = {
     GAS_ENDPOINT: "https://script.google.com/macros/s/AKfyc.../exec",
 
     // Pengaturan Cloudflare Turnstile
-    TURNSTILE_SITE_KEY: "1x00000000000000000000AA", // Ganti dengan Site Key Anda
+    TURNSTILE_SITE_KEY: "0x4AAAAAAE8mfhqq4r76El4z", // Ganti dengan Site Key Anda
     
     // Fitur Toggle (Matikan/Hidupkan fitur dengan mudah)
     ENABLE_TURNSTILE: true
