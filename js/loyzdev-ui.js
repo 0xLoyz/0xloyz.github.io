@@ -177,6 +177,11 @@ const COMPONENTS = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Arahkan autoloader Prism ke folder komponen bahasa yang benar
+    if (window.Prism && Prism.plugins && Prism.plugins.autoloader) {
+        Prism.plugins.autoloader.languages_path = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/';
+    }
+
     const grid = document.getElementById('ldui-grid');
     const tabs = document.querySelectorAll('.ldui-tab');
 
@@ -215,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button class="ldui-view-tab" data-view="code">&lt;/&gt; Code</button>
                 </div>
                 <div class="ldui-preview">${component.html}</div>
-                <pre class="ldui-code" style="display: none;"><code>${escapeHtml(buildSnippet(component))}</code></pre>
+                <pre class="ldui-code" style="display: none;"><code class="language-markup">${escapeHtml(buildSnippet(component))}</code></pre>
                 <button class="ldui-copy-btn">Salin Kode</button>
             `;
 
@@ -241,6 +246,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => { btn.textContent = original; }, 1200);
             });
             grid.appendChild(item);
+
+            // Nyalakan syntax highlighting buat blok kode ini
+            if (window.Prism) {
+                Prism.highlightElement(item.querySelector('.ldui-code code'));
+            }
         });
     }
 
