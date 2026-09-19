@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoyzDev UI | LoyzDev Portofolio</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="logo">Loyz<span>Dev</span></div>
+        <div class="hamburger" id="hamburger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <aside class="sidebar" id="sidebar">
+        <ul class="nav-links">
+            <li><a href="../index">Beranda</a></li>
+            <li><a href="source" class="active">Source & Tools</a></li>
+            <li><a href="login">Login</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content" style="max-width: 900px;">
+        <div class="login-card" style="max-width: 100%;">
+            <h2>LoyzDev UI</h2>
+            <p>Koleksi komponen UI open source — salin, tempel, pakai langsung.</p>
+
+            <div class="ldui-tabs" id="ldui-tabs">
+                <button class="ldui-tab active" data-cat="all">Semua</button>
+                <button class="ldui-tab" data-cat="Button">Button</button>
+                <button class="ldui-tab" data-cat="Card">Card</button>
+                <button class="ldui-tab" data-cat="Form">Form</button>
+            </div>
+
+            <div class="ldui-grid" id="ldui-grid"></div>
+        </div>
+    </main>
+
+    <script src="../js/loyzdev-ui.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/particles.js"></script>
+</body>
+</html>
