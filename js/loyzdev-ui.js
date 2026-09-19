@@ -189,6 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return `<style>\n${component.css}\n</style>\n\n${component.html}`;
     }
 
+    function escapeHtml(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
     function render(filterCat) {
         grid.innerHTML = '';
         const list = filterCat === 'all'
@@ -203,9 +210,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="ldui-item-name">${component.name}</span>
                     <span class="ldui-item-cat">${component.category}</span>
                 </div>
+                <div class="ldui-view-tabs">
+                    <button class="ldui-view-tab active" data-view="preview">Preview</button>
+                    <button class="ldui-view-tab" data-view="code">&lt;/&gt; Code</button>
+                </div>
                 <div class="ldui-preview">${component.html}</div>
+                <pre class="ldui-code" style="display: none;"><code>${escapeHtml(buildSnippet(component))}</code></pre>
                 <button class="ldui-copy-btn">Salin Kode</button>
             `;
+
+            const previewEl = item.querySelector('.ldui-preview');
+            const codeEl = item.querySelector('.ldui-code');
+            const viewTabs = item.querySelectorAll('.ldui-view-tab');
+
+            viewTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    viewTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    const showCode = tab.dataset.view === 'code';
+                    previewEl.style.display = showCode ? 'none' : 'flex';
+                    codeEl.style.display = showCode ? 'block' : 'none';
+                });
+            });
+
             item.querySelector('.ldui-copy-btn').addEventListener('click', (e) => {
                 navigator.clipboard.writeText(buildSnippet(component));
                 const btn = e.target;
