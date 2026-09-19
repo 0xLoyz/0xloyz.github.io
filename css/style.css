@@ -425,3 +425,91 @@ body {
     padding: 1px 6px;
     border-radius: 4px;
 }
+
+/* Halaman LoyzDev UI: tab kategori & grid komponen */
+.ldui-tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.ldui-tab {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(229, 164, 82, 0.25);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.ldui-tab.active,
+.ldui-tab:hover {
+    background: var(--accent-gold);
+    color: #191414;
+    border-color: var(--accent-gold);
+}
+
+.ldui-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.ldui-item {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(229, 164, 82, 0.15);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ldui-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ldui-item-name {
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.ldui-item-cat {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+.ldui-preview {
+    background: repeating-conic-gradient(rgba(255,255,255,0.03) 0% 25%, transparent 0% 50%) 50% / 16px 16px;
+    border-radius: 8px;
+    padding: 24px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90px;
+}
+
+.ldui-copy-btn {
+    background: rgba(229, 164, 82, 0.1);
+    color: var(--accent-gold);
+    border: 1px solid rgba(229, 164, 82, 0.3);
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.ldui-copy-btn:hover {
+    background: var(--accent-gold);
+    color: #191414;
+}
