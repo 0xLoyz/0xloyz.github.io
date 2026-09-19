@@ -513,3 +513,46 @@ body {
     background: var(--accent-gold);
     color: #191414;
 }
+
+/* Toggle Preview / Code di tiap komponen LoyzDev UI */
+.ldui-view-tabs {
+    display: flex;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 3px;
+    width: fit-content;
+}
+
+.ldui-view-tab {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.ldui-view-tab.active {
+    background: rgba(229, 164, 82, 0.15);
+    color: var(--accent-gold);
+}
+
+.ldui-code {
+    background: #100d0d;
+    border-radius: 8px;
+    padding: 14px;
+    margin: 0;
+    max-height: 220px;
+    overflow: auto;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: #d7d7d7;
+}
+
+.ldui-code code {
+    font-family: 'Courier New', monospace;
+    white-space: pre;
+}
