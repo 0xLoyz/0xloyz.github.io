@@ -540,7 +540,7 @@ body {
     color: var(--accent-gold);
 }
 
-.ldui-code {
+.ldui-item .ldui-code {
     background: #100d0d;
     border-radius: 8px;
     padding: 14px;
@@ -549,10 +549,11 @@ body {
     overflow: auto;
     font-size: 0.75rem;
     line-height: 1.5;
-    color: #d7d7d7;
 }
 
-.ldui-code code {
+.ldui-item .ldui-code code {
     font-family: 'Courier New', monospace;
     white-space: pre;
+    background: none;
+    text-shadow: none;
 }
