@@ -6,7 +6,7 @@ const CONFIG = {
     SUPABASE_KEY: "sb_publishable_P_BDcn0mxDcNOHMHJi-KtA_vQQN-4G8", 
 
     // Pengaturan Google Apps Script (Endpoint)
-    GAS_ENDPOINT: "https://script.google.com/macros/s/AKfycbzd7gRNXr_blV9SnDPqvQVYA-Ta37bzcvf5mRjDGu3pMcbjpKwGiFoTOIRprAsipj-9dw/exec",
+    GAS_ENDPOINT: "https://script.google.com/macros/s/AKfycbytsaRnoJ4G77djc8Gl4Z-M3y16K2dNhhLdlskXt5ZjSX3qaj8w1joca4C6_ZQMiN55eA/exec",
 
     // Pengaturan Cloudflare Turnstile
     TURNSTILE_SITE_KEY: "0x4AAAAAAE8mfhqq4r76El4z", // Ganti dengan Site Key Anda
