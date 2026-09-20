@@ -686,6 +686,17 @@ body {
 .canvas-file-upload {
     color: var(--accent-gold);
     border-style: dashed;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.canvas-file-hint {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.4);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
 }
 
 .canvas-file-ext {
