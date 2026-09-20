@@ -37,10 +37,17 @@ function escapeHtmlCanvas(str) {
 
 // Render satu ikon file (badge warna sesuai ekstensi)
 function renderFileBadge(fileValue, tokenIndex) {
-    if (!fileValue || fileValue.trim() === '') {
-        return `<button class="canvas-file-upload" data-token-index="${tokenIndex}">+ Upload</button>`;
+    const trimmed = (fileValue || '').trim();
+
+    // Belum pernah diupload beneran (baik kosong ATAU baru nama rencana tanpa "|")
+    if (!trimmed.includes('|')) {
+        const hint = trimmed && trimmed !== '-' ? escapeHtmlCanvas(trimmed) : '';
+        return `<button class="canvas-file-upload" data-token-index="${tokenIndex}">
+            + Upload${hint ? `<span class="canvas-file-hint">${hint}</span>` : ''}
+        </button>`;
     }
-    const [name, fileId] = fileValue.split('|');
+
+    const [name, fileId] = trimmed.split('|');
     const ext = getFileExt(name || '');
     return `<button class="canvas-file-badge" data-file-id="${fileId}" data-file-name="${escapeHtmlCanvas(name)}" data-ext="${ext}">
         <span class="canvas-file-ext">${ext || '?'}</span>
